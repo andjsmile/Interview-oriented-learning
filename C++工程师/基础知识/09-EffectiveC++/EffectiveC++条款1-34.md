@@ -494,10 +494,93 @@ reinterpret_cast 意图执行低级转型
 
 inline 函数，动作像函数，比宏macro好，不用承受函数调用所招致的额外开销
 
+类内的函数的实现，是一个隐喻的inline申请
+
+明确申请inline就是在定义式前面加上inline关键字
+
+inline函数通常置于头文件内部，大多数环境是在编译过程中进行 inlining
+
+80-20法则:
+一个程序将80%的执行事件花费在20%的代码上
+
+先不编写inline函数，最后对20%重要的代码进行精简
+
+
+**条款31 将文件间的编译依存关系降至最低** 
+
+pImpl
+
+pointer to implementation 
+负责实现的是 pimpl idiom
+
+像person这样使用pimpl idiom的classes ,往往称之为 Handle classes;
+
+将对象实现细目隐藏于一个指针背后
+一个类提供接口，一个类负责实现该接口
+
+- 尽量使用class声明式替换class定义式
+- 为声明式和定义式提供不同的头文件
+
+```cpp
+#include "person.h"
+#include "personImpl.h"
+// person 和 personImpl有着相同成员函数，两者的接口也相同
+person::person(const std::string& name,const Date& birthday,const Address& addr)
+        :pImpl(new personImpl(name,birthday,addr))
+{}
+
+std::string person::name() const
+{
+  return pImpl->name();
+}
+```
+
+另外实现Handle class的办法是，使person成为一个特殊的 abstract base class 抽象基类 称之为 Interface class
+
+Handle classes 和 Interface classes 解除了接口和实现之间的耦合关系,降低了文件间的编译依存性
 
 
 
+### 第六部分，继承于面向对象设计
 
+**条款32.确定你的public继承塑模出is-a关系**
+
+public inheritance 公开继承 意味 "is-a"的关系
+
+每一个derived继承对象同时也是一个为base类型的对象
+
+public 继承意味着is-a ,适用于base classes身上的每一件事情都适用于 derived classes 
+
+
+**条款33.避免遮掩继承而来的名称**
+
+遮掩名称，只是遮掩名字,与其类型无关
+只要是名称相同，就会被遮掩
+
+
+编译器查找个作用域:
+- 1.查找local作用域
+- 2.查找外围作用域
+- 3.查找其基类base
+- 4.查找含基类的 namespace
+- 5.查找global 作用域
+
+名称遮掩的目的:
+
+防止你在程序库或应用框架(application framework)内建立新的 derived classes继承(public)base classes的重载函数
+(违反了 is-a的关系)
+
+如果需要继承重载函数:
+
+使用using 声明式 
+using Base::mf1;
+using Base::mf3;
+
+using 声明会令继承而来的某给定名称之所有的同名函数在derived class中都可见
+
+在私有继承(private)之下:
+
+使用转交函数(forwarding function)
 
 
 
