@@ -26,3 +26,27 @@
         }
 
 ```
+
+
+## 树的递归遍历问题
+
+从树顶到树底的递归 自上而下
+
+累加和从树底到树顶 自下而上
+```cpp
+int AllSum(TreeNode* root,int res)
+    {
+        // 递归的数字累加
+        if(root->left==nullptr && root->right==nullptr)
+            return res*10+root->val;
+        int all_sum=0;
+        if(root->left!=nullptr)
+            all_sum+=AllSum(root->left,res*10+root->val);
+        if(root->right!=nullptr)
+            all_sum+=AllSum(root->right,res*10+root->val);
+        return all_sum;
+    }
+```
+
+并查集知识点
+
