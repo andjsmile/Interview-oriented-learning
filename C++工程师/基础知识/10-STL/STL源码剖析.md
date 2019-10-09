@@ -44,5 +44,27 @@ construct(),destroy(),uninitialized_copy(),uninitialized_fill(),uninitialized_fi
 迭代器:提供一种方法，可以依序遍历容器所含的各个元素，而又无需暴露内部的表述方式
 
 
+迭代器是一种 smart pointer
 
+auto_ptr 已经被 unique_ptr向下兼容    使用的时候使用unique_ptr
+
+
+迭代器的响应类型别
+
+特性萃取机
+
+```cpp
+template<class I>
+struct iterator_traits
+{
+    typedef typename I::value_type value_type;
+    typedef typename I::pointer    pointer;
+    typedef typename I::reference  reference;
+    typedef typename I::difference_type difference_type;
+    typedef typename I::iterator_category iterator_category;
+
+}
+```
+
+### 4.容器
 
