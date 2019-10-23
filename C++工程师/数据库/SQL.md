@@ -1,6 +1,81 @@
 
 
 [MySQL面试高频一百问(工程师方向)](https://juejin.im/post/5d351303f265da1bd30596f9)
+[MySQL面试常见50题](https://www.cnblogs.com/jike1219/p/9252582.html)
+
+MySQL面试常见50题的练习
+```sql
+/*
+Student(Sid,Sname,Sage,Ssex) 学生表  
+Sid：学号；Sname：学生姓名；Sage：学生年龄；Ssex：学生性别
+
+Course(Cid,Cname,Tid) 课程表 
+Cid,课程编号；Cname：课程名字；Tid：教师编号
+
+SC(Sid,Cid,score) 成绩表 
+Sid：学号；Cid,课程编号；score：成绩
+
+Teacher(Tid,Tname) 教师表 
+Tid：教师编号； Tname：教师名字
+*/
+
+drop table if exists Student;
+drop table if exists Course;
+drop table if exists SC;
+drop table if exists Teacher;
+
+-- table Student
+create table Student
+(
+   Sid           bigint not null comment '学号',
+   Sname         varchar(32) comment '学生姓名',
+   Sage          int comment '学生年龄',
+   Ssex          varchar(10) comment '学生性别',
+   primary key (Sid)
+)
+
+ENGINE = InnoDB
+
+DEFAULT CHARACTER SET = utf8;
+
+-- table Course
+create table Course(
+    Cid       bigint not null comment '课程编号'，
+    Cname     varchar(32) comment '课程名字',
+    Tid       bigint comment      '教师编号',
+    primary key(Cid)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8;
+
+-- table SC
+create table SC
+(
+    Sid     bigint not null comment'学号',
+    Cid     bigint comment'课程编号',
+    score   bigint comment'成绩',
+    primary key (Sid)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8;
+
+-- table Teacher
+create table Teacher
+(
+    Tid     bigint not null comment'教师编号',
+    Tname   varchar(32) comment'教师名字',
+    primary key (Tid)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8;
+
+select a.Sid (select Sid,score from SC where Cid=1)a,(select Sid,score from SC where Cid=2)b
+where a.score >b.score and a.Sid=b.Sid;
+
+select Sid ,avg(socre)
+from SC
+group by Sid having avg(score)>60;
+```
 
 
 ### SQL

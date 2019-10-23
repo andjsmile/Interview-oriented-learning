@@ -112,6 +112,7 @@ Trim(),去掉元素的左右两边的空格
 - 别名函数alias
 
 AS,使用关键字进行赋予
+这个使用还是比较多的
 
 **数据处理函数**
 
@@ -119,10 +120,122 @@ AS,使用关键字进行赋予
 为了代码的可移值行，要对这些代码做好注释，解释处理函数
 
 
+时间处理函数
+
+数值处理函数
+
+- Abs() 返回绝对值
+- Cos() 返回余弦
+- Exp() 返回一个数的指数值
+- Mod() 余数
+
+汇总数据
+
+- AVG()
+- COUNT()
+- MAX()
+- MIN()
+- SUM()
+
+
+**分组数据**
+
+GROUP BY  ,HAVING
+
+WHERE 是用来过滤行
+GROUP BY 是用来进行分组
+
+
+**子查询**
+
+select 语句中，子查询总是从内向外进行处理
+
+要进行格式化的输入,便于理解
+
+```sql
+SELECT cust_name,cust_contact
+FROM customers
+WHERE cust_id IN(SELECT cust_id
+                 FROM orders
+                 WHERE order_num IN(SELECT order_num
+                                    FROM orderitems
+                                    WHERE prod_id='TNT2'));
+```
+
+
+**联结表**
+
+SQL最强大的功能之一，就是在数据检索查询的执行中联结join表
+
+- 外键(foreign key):外键作为某个表中的一列，包含另一个表中的主键值，定义类两个表之间的关系
+
+- 可伸缩性(scale):能够不断增加的工作量而不失败
+
+这个关系是实现关系性数据库的重点，关系性的数据库伸缩性要比非关系性数据库要好的多
+
+联结是一种机制，用来在一条SELECT语句中关联表
+
+
+- 内部联结(equijoin)等值联结
+
+```sql
+SELECT vend_name,prod_name,prod_price
+FROM vendors INNER JOIN products
+ON vendors.vend_id=products.vend_id;
+
+SELECT vend_name,prod_name,prod_price
+FROM vendors ,products
+WHERE vendors.vend_id=products.vend_id;
+```
+
+表联结越多，性能下降越厉害
+
+
+- OUTER JOIN 指定联结的类型
+
+- LEFT OUTER JOIN 从左边的表中选择所有行
+- RIGHT OUTER JOIN 从右边表中选择所有行
+
+
+**组合查询**
+
+unoin
+
+一个语句的排序order by会实现多个表的排序
+
+
+**全文本搜索**
+
+创建时实现  FULLTEXT(note_text)
+
+Match()指定搜索的列
+Against() 指定要使用的搜索表达式
+```sql
+SELECT note_next
+FROM productontes
+WHERE Match(note_text) Against('rabbit');
+
+-- 可以进行拓展
+
+SELECT note_next
+FROM productontes
+WHERE Match(note_text) Against('rabbit' IN BOOLEAN MODE);
+```
+
+```sql
+SELECT note_text ,Match(note_text) Against('rabbit') AS rank
+FROM productnotes;
+```
 
 
 
+### 插入数据
 
+INSERT
 
+insert语句不会产生输出
 
+尽量使用单条INSERT语句处理多个插入，要比多条Insert快
+
+一个列，对应多组value值来实现
 
