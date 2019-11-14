@@ -15,6 +15,7 @@ public interface IStrinBuffer{
 
     public void reverse();
     public void length();
+
 }
 
 public class MyStringBuffer implements IStrinBuffer{
